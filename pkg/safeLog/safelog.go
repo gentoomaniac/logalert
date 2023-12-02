@@ -3,16 +3,11 @@ package safelog
 import (
 	"context"
 	"log/slog"
-	"regexp"
 	"sync"
 )
 
 const (
 	replacement = "*****"
-)
-
-var (
-	rePassword = regexp.MustCompile(".*password.*")
 )
 
 type SafeLogHandler struct {
@@ -55,11 +50,31 @@ func (h *SafeLogHandler) WithGroup(name string) slog.Handler {
 
 func filterAttrs(attrs []slog.Attr) []slog.Attr {
 	fillteredAttrs := []slog.Attr{}
+
 	for _, attr := range attrs {
-		if rePassword.MatchString(attr.Value.String()) {
+		matched := false
+
+		for _, re := range keyRegexp {
+			if re.MatchString(attr.Key) {
+				matched = true
+			}
+			break
+		}
+
+		if !matched {
+			for _, re := range valueRegexp {
+				if re.MatchString(attr.Value.String()) {
+					matched = true
+				}
+				break
+			}
+		}
+
+		if matched {
 			attr.Value = slog.StringValue(replacement)
 		}
 		fillteredAttrs = append(fillteredAttrs, attr)
 	}
+
 	return fillteredAttrs
 }

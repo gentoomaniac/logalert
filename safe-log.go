@@ -16,8 +16,9 @@ func safeLogCmd() {
 			os.Stdout,
 			&slog.HandlerOptions{Level: slog.LevelDebug})).WithAttrs(
 		[]slog.Attr{
-			{Key: "password", Value: slog.StringValue("supersecretpassword")}}))
+			{Key: "IBAN", Value: slog.StringValue("supersecretpassword")},
+			{Key: "foo", Value: slog.StringValue("bar")}}))
 
-	log.Info("Hello World", "anotherpassword", "passwordissupersecret")
+	log.Info("Hello World", "anotherField", "fizzbuzz", "piiFieldBroken", "SE45 5000 0000 0583 9825 7466", "piiField", "DE12345678901234567800")
 
 }
