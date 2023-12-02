@@ -19,10 +19,8 @@ var (
 var cli struct {
 	logging.LoggingConfig
 
-	Foo struct {
-	} `cmd:"" help:"FooBar command"`
-	Run struct {
-	} `cmd:"" help:"Run the application (default)." default:"1" hidden:""`
+	Watch   watchConfig `cmd:"" help:"Watch a given path"`
+	SafeLog safeLog     `cmd:"" help:"poc"`
 
 	Version gocli.VersionFlag `short:"V" help:"Display version."`
 }
@@ -38,8 +36,11 @@ func main() {
 	logging.Setup(&cli.LoggingConfig)
 
 	switch ctx.Command() {
-	case "foo":
-		log.Info().Msg("foo command")
+	case "watch":
+		log.Info().Msg("watch command")
+		watch()
+	case "safe-log":
+		safeLogCmd()
 	default:
 		log.Info().Msg("Default command")
 	}
