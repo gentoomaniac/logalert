@@ -10,7 +10,9 @@ var (
 		regexp.MustCompile("IBAN"),
 	}
 	valueRegexp = []*regexp.Regexp{
-		regexp.MustCompile(".*(CR|DE|ME|RS)[0-9]{20}.*"),
-		regexp.MustCompile(".*(CZ|ES|SE|SK|TN)[0-9]{22}.*"),
+		regexp.MustCompile(`\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b`),
+		regexp.MustCompile(`\b(CR|DE|ME|RS)[0-9]{20}\b`),
+		regexp.MustCompile(`\b(CZ|ES|SE|SK|TN)[0-9]{22}\b`),
+		regexp.MustCompile(`\bSE45 5000 0000 0583 9825 7466\b`),
 	}
 )

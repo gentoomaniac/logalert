@@ -57,16 +57,16 @@ func filterAttrs(attrs []slog.Attr) []slog.Attr {
 		for _, re := range keyRegexp {
 			if re.MatchString(attr.Key) {
 				matched = true
+				break
 			}
-			break
 		}
 
 		if !matched {
 			for _, re := range valueRegexp {
 				if re.MatchString(attr.Value.String()) {
 					matched = true
+					break
 				}
-				break
 			}
 		}
 
